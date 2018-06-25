@@ -1,0 +1,5 @@
+intern(00-trivial.oc) returned 0x20b4418->"00-trivial.oc"
+hash[   1]: 12472451067538589077: 0x20b4418->"00-trivial.oc"
+load_factor = 0.500
+bucket_count = 2
+max_bucket_size = 1

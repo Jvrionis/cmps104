@@ -1,0 +1,27 @@
+Makefile:100: Makefile.deps: No such file or directory
+gmake --no-print-directory deps
+flex --outfile=yylex.cpp scanner.l 2>yylex.output
+grep -v '^ ' yylex.output
+Makefile:55: recipe for target 'yylex.cpp' failed
+gmake[1]: [yylex.cpp] Error 1 (ignored)
+bison --defines=yyparse.h --output=yyparse.cpp parser.y
+parser.y: warning: 30 shift/reduce conflicts [-Wconflicts-sr]
+g++ -MM -std=gnu++14 astree.cpp lyutils.cpp string_set.cpp auxlib.cpp symtable.cpp buildsym.cpp main.cpp yylex.cpp yyparse.cpp >>Makefile.deps
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -c astree.cpp
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -c lyutils.cpp
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -c string_set.cpp
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -c auxlib.cpp
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -c symtable.cpp
+symtable.cpp: In function ‘symbol* create_symbol(astree*)’:
+symtable.cpp:61:36: error: ‘struct astree’ has no member named ‘attributes’
+     new_symbol->attributes = node->attributes;
+                                    ^~~~~~~~~~
+symtable.cpp:64:34: error: ‘struct astree’ has no member named ‘block_nr’
+     new_symbol->block_nr = node->block_nr;
+                                  ^~~~~~~~
+symtable.cpp: In function ‘void print_node(FILE*, symbol_table, const string*)’:
+symtable.cpp:111:68: error: cannot convert ‘FILE* {aka _IO_FILE*}’ to ‘const char*’ for argument ‘1’ to ‘int printf(const char*, ...)’
+                                     atr_to_string(node->attributes));
+                                                                    ^
+Makefile:52: recipe for target 'symtable.o' failed
+gmake: *** [symtable.o] Error 1

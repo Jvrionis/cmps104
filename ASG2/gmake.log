@@ -1,0 +1,40 @@
+Makefile:96: Makefile.deps: No such file or directory
+gmake --no-print-directory deps
+flex --outfile=yylex.cpp scanner.l
+flex version 2.5.37 usage statistics:
+  scanner options: -dsvI8 -Cem -oyylex.cpp
+  286/2000 NFA states
+  109/1000 DFA states (577 words)
+  49 rules
+  Compressed tables always back-up
+  1/40 start conditions
+  164 epsilon states, 67 double epsilon states
+  17/100 character classes needed 181/500 words of storage, 0 reused
+  1718 state/nextstate pairs created
+  281/1437 unique/duplicate transitions
+  114/1000 base-def entries created
+  205/2000 (peak 308) nxt-chk entries created
+  20/2500 (peak 240) template nxt-chk entries created
+  0 empty table entries
+  5 protos created
+  5 templates created, 66 uses
+  48/256 equivalence classes created
+  4/256 meta-equivalence classes created
+  2 (4 saved) hash collisions, 175 DFAs equal
+  0 sets of reallocations needed
+  942 total table entries needed
+bison --defines=yyparse.h --output=yyparse.cpp --xml parser.y
+xsltproc /usr/share/bison/xslt/xml2xhtml.xsl yyparse.xml >yyparse.html
+g++ -MM -std=gnu++14 astree.cpp lyutils.cpp string_set.cpp auxlib.cpp main.cpp yylex.cpp yyparse.cpp >>Makefile.deps
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -c astree.cpp
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -c lyutils.cpp
+lyutils.cpp: In static member function ‘static void lexer::newfilename(const string&)’:
+lyutils.cpp:36:20: warning: comparison between signed and unsigned integer expressions [-Wsign-compare]
+    for(int i = 0; i< lexer::filenames.size(); i++){
+                   ~^~~~~~~~~~~~~~~~~~~~~~~~~
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -c string_set.cpp
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -c auxlib.cpp
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -c main.cpp
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -Wno-sign-compare -c yylex.cpp
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -c yyparse.cpp
+g++ -g -O0 -Wall -Wextra -std=gnu++14 -ooc astree.o lyutils.o string_set.o auxlib.o main.o yylex.o yyparse.o
